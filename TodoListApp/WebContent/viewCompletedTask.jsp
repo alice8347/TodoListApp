@@ -17,26 +17,15 @@
 <div class="navbar-header">
 <a class="navbar-brand" href="todoListServlet">To-do List Application</a>
 </div>
-<% if (session.getAttribute("user") != null) { %>
 <div>
 <ul class="nav navbar-nav navbar-right">
 <li><a href="addList.jsp">Add New Task</a>
-<li><a href="viewCompletedTaskServlet">View Completed Tasks</a>
 <li><a href="loginServlet?logout=true">Logout</a></li>
 </ul>
 </div>
 </div>
 </nav>
-<% } else { %>
-<div>
-<ul class="nav navbar-nav navbar-right">
-<li><a href="login.jsp">Login</a></li>
-</ul>
-</div>
-</div>
-</nav>
-<% } %>
-${todoListMsg}
+${viewCompletedTaskMsg}
 
 </body>
 </html>

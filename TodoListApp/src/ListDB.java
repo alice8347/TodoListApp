@@ -51,12 +51,41 @@ public class ListDB {
 		}
 	}
 	
+	public static List<Todolist> selectByUserIdStatus(long userId, long statusId) {
+		EntityManager em = DBUtil.getEmFactory().createEntityManager();
+		String query = "SELECT t FROM Todolist t WHERE t.todouser.id = " + userId + " AND t.todostatus.id = " + statusId;
+		TypedQuery<Todolist> q = em.createQuery(query, Todolist.class);
+		try {
+			List<Todolist> list = q.getResultList();
+			return list;
+		} catch (Exception e) {
+			return null;
+		} finally {
+			em.close();
+		}
+	}
+	
 	public static void insert(Todolist list) {
 		EntityManager em = DBUtil.getEmFactory().createEntityManager();
 		EntityTransaction trans = em.getTransaction();
 		trans.begin();
 		try {
 			em.persist(list);
+			trans.commit();
+		} catch (Exception e) {
+			System.out.println(e);
+			trans.rollback();
+		} finally {
+			em.close();
+		}
+	}
+	
+	public static void update(Todolist list) {
+		EntityManager em = DBUtil.getEmFactory().createEntityManager();
+		EntityTransaction trans = em.getTransaction();
+		trans.begin();
+		try {
+			em.merge(list);
 			trans.commit();
 		} catch (Exception e) {
 			System.out.println(e);

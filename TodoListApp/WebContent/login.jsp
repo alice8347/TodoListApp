@@ -32,7 +32,7 @@ function validateForm() {
 <div class="container">
 <h3>Login / Signup</h3>
 <br />
-<form class="form-horizontal" role="form" name="LoginForm" id="LoginForm" onsubmit="return validateForm()" action="Login" method="post">
+<form class="form-horizontal" role="form" name="LoginForm" id="LoginForm" onsubmit="return validateForm()" action="loginServlet" method="post">
 <div class="form-group">
 <label class="control-label col-sm-2" for="name">User Name:</label>
 <div class="col-sm-10">
@@ -47,8 +47,8 @@ function validateForm() {
 </div>
 <div class="form-group">
 <div class="col-sm-offset-2 col-sm-10">
-<button type="submit" class="btn btn-default" name="LoginSub" id="LoginSub">Submit</button>
-<button type="submit" class="btn btn-default" name="SignupSub" id="SignupSub">Submit</button>
+<button type="submit" class="btn btn-default" name="LoginSub" id="LoginSub">Login</button>
+<button type="submit" class="btn btn-default" name="SignupSub" id="SignupSub">Signup</button>
 </div>
 </div>
 </form>

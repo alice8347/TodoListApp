@@ -45,18 +45,19 @@ function validateForm() {
 </div>
 </div>
 </nav>
+<% java.text.DateFormat df = new java.text.SimpleDateFormat("dd/MM/yyyy"); %>
 <div class=container>
-<form class="form-horizontal" role="form" name="addList" id="addList" onsubmit="return validateForm()" action="addListServlet" method="post">
+<form class="form-horizontal" role="form" name="editList" id="editList" onsubmit="return validateForm()" action="editListServlet" method="post">
 <div class="form-group">
 <label class="control-label col-sm-2" for="description">Description:</label>
 <div class="col-sm-10">
-<input type="text" class="form-control" name="description" id="description" placeholder="Enter description">
+<input type="text" class="form-control" name="description" id="description" value="${list.description}">
 </div>
 </div>
 <div class="form-group">
 <label class="control-label col-sm-2" for="dueDate">Due Date (MM-DD-YYYY):</label>
 <div class="col-sm-10">
-<input type="text" class="form-control" name="dueDate" id="dueDate" placeholder="Enter due date">
+<input type="text" class="form-control" name="dueDate" id="dueDate" value="${dueDate}">
 </div>
 </div>
 <div class="form-group">
@@ -87,7 +88,7 @@ function selectCheck(nameSelect) {
 <div id="completed" class="form-group" style="display:none;">
 <label class="control-label col-sm-2" for="completionDate">Completion Date (MM-DD-YYYY):</label>
 <div class="col-sm-10">
-<input type="text" class="form-control" name="completionDate" id="completionDate" placeholder="Enter completion date">
+<input type="text" class="form-control" name="completionDate" id="completionDate" value="${completionDate}">
 </div>
 </div>
 <div class="form-group">
@@ -102,12 +103,12 @@ function selectCheck(nameSelect) {
 </div>
 <div class="form-group"> 
 <div class="col-sm-offset-2 col-sm-10">
-<button type="submit" class="btn btn-default" name="addListSub" id="addListSub">Submit</button>
+<button type="submit" class="btn btn-default" name="editListSub" id="editListSub">Submit</button>
 </div>
 </div>
 </form>
 </div>
-${addListMsg}
+${editListMsg}
 
 </body>
 </html>

@@ -10,6 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
+@Table(name="Todolist", schema="TESTDB")
 @NamedQuery(name="Todolist.findAll", query="SELECT t FROM Todolist t")
 public class Todolist implements Serializable {
 	private static final long serialVersionUID = 1L;

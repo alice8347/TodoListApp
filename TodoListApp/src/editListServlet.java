@@ -13,20 +13,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.Todolist;
-import model.Todouser;
 
 /**
- * Servlet implementation class addListServlet
+ * Servlet implementation class editListServlet
  */
-@WebServlet("/addListServlet")
-public class addListServlet extends HttpServlet {
+@WebServlet("/editListServlet")
+public class editListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private String addListMsg;
+	private String dueDate;
+	private String completionDate;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public addListServlet() {
+    public editListServlet() {
         super();
     }
 
@@ -34,7 +34,26 @@ public class addListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		dueDate = "";
+		completionDate = "";
+		HttpSession session = request.getSession();
 		
+		if (request.getParameter("listId") != null) {
+			Todolist list = ListDB.selectByListId(Long.parseLong(request.getParameter("listId")));
+			session.setAttribute("list", list); 
+			DateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+			
+			dueDate = formatter.format(list.getDuedate());
+			
+			if (list.getDatecompleted() != null) {
+				completionDate = formatter.format(list.getDatecompleted());
+			}
+			
+			request.setAttribute("dueDate", dueDate);
+			request.setAttribute("completionDate", completionDate);
+		}
+		
+		getServletContext().getRequestDispatcher("/editList.jsp").forward(request, response);
 	}
 
 	/**
@@ -42,32 +61,31 @@ public class addListServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		if (request.getParameter("addListSub") != null) {
-			Todolist newList = new Todolist();
+		if (request.getParameter("editListSub") != null) {
+			Todolist list = (Todolist) session.getAttribute("list");
 			String description = request.getParameter("description");
 			long status = Long.parseLong(request.getParameter("status"));
 			String priority = request.getParameter("priority");
-			newList.setDescription(description);
-			newList.setTodostatus(StatusDB.selectById(status));
-			newList.setListpriority(priority);
-			newList.setTodouser((Todouser) session.getAttribute("user"));
+			list.setDescription(description);
+			list.setTodostatus(StatusDB.selectById(status));
+			list.setListpriority(priority);
 			
 			DateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
 			
 			try {
 				Date dueDate = formatter.parse(request.getParameter("dueDate"));
-				newList.setDuedate(dueDate);
+				list.setDuedate(dueDate);
 				
-				if (!request.getParameter("completionDate").isEmpty()) {
+				if (request.getParameter("completionDate") != null) {
 					Date dateCompleted = formatter.parse(request.getParameter("completionDate"));
-					newList.setDatecompleted(dateCompleted);
+					list.setDatecompleted(dateCompleted);
 				}
 				
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 			
-			ListDB.insert(newList);
+			ListDB.update(list);
 			response.sendRedirect("/TodoListApp/todoListServlet");
 		}
 	}
